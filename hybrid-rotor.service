@@ -1,0 +1,11 @@
+[Unit]
+Description=Hybrid Rotor service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=3
+ExecStart=/home/pi/hybrid-rotor/main.py
+
+[Install]
+WantedBy=multi-user.target
