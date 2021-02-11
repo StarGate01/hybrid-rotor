@@ -15,7 +15,7 @@ server = Server(server_ip, server_port)
 interface = Interface()
 
 
-def sigint_handler(sig, frame):
+def exit_handler(sig, frame):
     print("Exiting hybrid-rotor")
     server.stop()
     interface.close()
@@ -37,5 +37,6 @@ def main():
 
 
 if __name__ == "__main__":
-    signal.signal(signal.SIGINT, sigint_handler)
+    signal.signal(signal.SIGINT, exit_handler)
+    signal.signal(signal.SIGTERM, exit_handler)
     main()
