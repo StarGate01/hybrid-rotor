@@ -8,6 +8,7 @@ This system receives antenna rotation data from a satellite tracking application
  - GY-511 Sensor (LSM303DLH acceleration and magnetometer IC)
 
 ## Software Dependencies
+ - I2C interface enabled and loaded
  - APT: python3
  - APT: python3-rpi.gpio
  - PIP: [adafruit_lsm303dlh_mag](https://github.com/adafruit/Adafruit_CircuitPython_LSM303DLH_Mag)
