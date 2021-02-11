@@ -1,13 +1,13 @@
 # hybrid-rotor
 
-Raspberry Pi antenna rotation assistant
+Raspberry Pi antenna rotation assistant for gPredict
 
-## Hardware:
+## Hardware
  - Raspberry Pi 4
  - 2004A v2.0 LCD
  - GY-511 Sensor
 
-## Software:
+## Software
  - python3
  - python3-rpi.gpio
  - adafruit_lsm303dlh_mag
