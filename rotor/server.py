@@ -50,6 +50,8 @@ class ClientThread(Thread):
                         self._respond(0)
                         print("Client " + self.ip + " quits")
                         break
+                    else:
+                        self._respond(-2)
         self.conn.close()
         self.server.threads.remove(self) 
         print("Exiting client thread for " + self.ip)
