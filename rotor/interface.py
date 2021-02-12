@@ -10,7 +10,7 @@ class Interface:
         self.i2c = busio.I2C(board.SCL, board.SDA)
         self.sensor_mag = adafruit_lsm303dlh_mag.LSM303DLH_Mag(self.i2c)
         self.sensor_accel = adafruit_lsm303_accel.LSM303_Accel(self.i2c)
-        self.lcd = CharLCD(pin_rs=22, pin_rw=24, pin_e=23, pins_data=[9, 25, 11, 8],
+        self.lcd = CharLCD(pin_rs=22, pin_rw=24, pin_e=23, pins_data=[9, 11, 25, 8],
             numbering_mode=GPIO.BCM, cols=20, rows=4, dotsize=8, charmap='A02', auto_linebreaks=True, compat_mode=True)
         
         self.lcd.cursor_mode = "hide"
