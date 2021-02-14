@@ -39,8 +39,6 @@ class Interface:
         # Compute eulers
         pitch = math.asin(-acc_x_norm)
         roll = math.asin(acc_y_norm / math.cos(pitch))
-        # Compute elevation
-        tilt = (180.0 * math.atan2(abs(acc_z_norm), acc_x_norm) / math.pi) - 90.0
       
         # Normalize magnetic
         mag_len = math.sqrt((mag_x ** 2) + (mag_y ** 2) + (mag_z ** 2))
@@ -54,7 +52,7 @@ class Interface:
         heading_comp = 180.0 * math.atan2(mag_y_comp, mag_x_comp) / math.pi
         if (heading_comp < 0): heading_comp += 360.0
 
-        return (heading_comp, tilt)
+        return (heading_comp, 180.0 * roll / math.pi)
 
     def update(self, azm_is, azm_must, elv_is, elv_must):
         azm_diff = azm_must - azm_is
