@@ -8,8 +8,8 @@ from rotor.server import Server
 server_ip = "0.0.0.0"
 server_port = 4533
 
-azm_offset = 0.0
-elv_offset = 0.0
+azm_offset = 180.0
+elv_offset = -8.0
 
 server = Server(server_ip, server_port)
 interface = Interface()
@@ -29,7 +29,7 @@ def main():
 
     while True:
         (azm_is, elv_is) = interface.read()
-        azm_is += azm_offset
+        azm_is = (azm_is + azm_offset) % 360.0
         elv_is += elv_offset
         server.update(azm_is, elv_is)
         interface.update(azm_is, server.azm_must, elv_is, server.elv_must)

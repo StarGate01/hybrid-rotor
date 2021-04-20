@@ -29,7 +29,7 @@ class Interface:
     def read(self):
         # Read sensors
         acc_x, acc_y, acc_z = self.sensor_accel.acceleration
-        mag_x, mag_y, mag_z = self.sensor_mag.magnetic
+        mag_x, mag_y, mag_z = self.sensor_mag._raw_magnetic
 
         # Normalize acceleration
         acc_len = math.sqrt((acc_x ** 2) + (acc_y ** 2) + (acc_z ** 2))
@@ -40,19 +40,29 @@ class Interface:
         pitch = math.asin(-acc_x_norm)
         roll = math.asin(acc_y_norm / math.cos(pitch))
       
+        # Calibate magnetic
+        mag_offset = [-369, -80, -118]
+        mag_scale = [0.0025575447570332483, 0.0034423407917383822, 0.003105590062111801]
+        mag_x = ((mag_x + mag_offset[0]) * mag_scale[0]) - 1.0
+        mag_y = ((mag_y + mag_offset[1]) * mag_scale[1])  - 1.0
+        mag_z = ((mag_z + mag_offset[2]) * mag_scale[2])  - 1.0
         # Normalize magnetic
         mag_len = math.sqrt((mag_x ** 2) + (mag_y ** 2) + (mag_z ** 2))
         mag_x_norm = mag_x / mag_len
         mag_y_norm = mag_y / mag_len
         mag_z_norm = mag_z / mag_len
         # Compute tilt corrected heading
-        mag_x_comp = (mag_x_norm * math.cos(pitch)) + (mag_z_norm * math.sin(pitch))
-        mag_y_comp = (mag_x_norm * math.sin(roll) * math.sin(pitch)) + \
-            (mag_y_norm * math.cos(roll)) - (mag_z_norm * math.sin(roll) * math.cos(pitch))
-        heading_comp = 180.0 * math.atan2(mag_y_comp, mag_x_comp) / math.pi
+        mag_y_comp = (mag_y_norm * math.cos(roll)) + (mag_z_norm * math.sin(roll))
+        mag_x_comp = (mag_x_norm * math.cos(pitch)) + \
+            (mag_y_norm * math.sin(roll) * math.sin(pitch)) - \
+            (mag_z_norm * math.cos(roll) * math.sin(pitch))
+        heading_comp = 180.0 * math.atan2(mag_x_comp, mag_y_comp) / math.pi
         if (heading_comp < 0): heading_comp += 360.0
 
-        return (heading_comp, 180.0 * roll / math.pi)
+        # heading = 180.0 * math.atan2(mag_y_norm, mag_x_norm) / math.pi
+        # if heading < 0: heading += 360
+
+        return (heading_comp, -180.0 * roll / math.pi)
 
     def update(self, azm_is, azm_must, elv_is, elv_must):
         azm_diff = azm_must - azm_is
