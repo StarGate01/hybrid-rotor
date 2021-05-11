@@ -69,6 +69,8 @@ class Server:
         self.azm_is_cache = 0.0
         self.elv_is_cache = 0.0
         self._do_listen = False
+        self.listen_thread = None
+        self.threads = []
         socket.setdefaulttimeout(3.0)
 
     def _listen(self):
